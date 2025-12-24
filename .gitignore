@@ -32,9 +32,6 @@ packages/
 # Uncomment if using package restore
 # !packages/repositories.config
 
-# Entity Framework Migrations
-Migrations/
-
 # Rider
 .idea/
 *.sln.iml
