@@ -32,6 +32,8 @@ packages/
 # Uncomment if using package restore
 # !packages/repositories.config
 
+*~
+
 # Rider
 .idea/
 *.sln.iml
