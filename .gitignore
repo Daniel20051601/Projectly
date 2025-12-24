@@ -1,0 +1,59 @@
+# .NET & Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.ide
+*.slnLaunch.json
+*.slnLaunch.user
+*.psess
+*.vsp
+*.pdb
+*.cache
+*.dbmdl
+*.log
+*.vspscc
+*.vssscc
+*.ncb
+*.sdf
+*.opensdf
+*.ldf
+*.ide
+*.orig
+*.rej
+
+# NuGet
+*.nupkg
+.nuget/
+packages/
+# Uncomment if using package restore
+# !packages/repositories.config
+
+# Entity Framework Migrations
+Migrations/
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Others
+*.DS_Store
+*.env
+*.local
+
+# Build results
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+build/
+out/
