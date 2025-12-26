@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer; // Para JwtBearerDefaults
+using Microsoft.AspNetCore.Authentication.JwtBearer; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models; // Para OpenApiInfo, OpenApiSecurityScheme, etc.
+using Microsoft.OpenApi.Models;
 using Projectly.Api.Models;
 using Projectly.Api.Services;
 using Projectly.Shared.Dal;
@@ -10,16 +10,13 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configurar JwtSettings
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("JwtSettings").Bind(jwtSettings);
 builder.Services.AddSingleton(jwtSettings);
 
-// 2. Añadir servicios al contenedor
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// 3. Configurar Swagger con soporte para JWT
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -54,11 +51,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// 4. Configurar Entity Framework
 builder.Services.AddDbContextFactory<ProjectlyDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 5. Configurar autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -77,24 +72,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// 6. Registrar tus servicios
 builder.Services.AddProjectlyServices();
 builder.Services.AddScoped<JwtService>();
 
 var app = builder.Build();
 
-// 7. Configurar el pipeline de HTTP
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Projectly API V1");
-        c.RoutePrefix = "swagger";
-    });
-}
+  c.SwaggerEndpoint("swagger/v1/swagger.json", "Projectly API V1");
+  c.RoutePrefix = string.Empty;
+ });
 
-app.MapGet("/", () => "Projectly API is running!");
+
+app.MapGet("/health", () => "Projectly API is running!");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
